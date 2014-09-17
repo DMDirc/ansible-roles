@@ -40,3 +40,20 @@ nodejs.
 (Depends on NodeJS)
 
 Installs TapChat and its dependencies.
+
+# TeamCity Agent
+
+Creates a new user account, then downloads, unpacks and configures a
+TeamCity build agent.
+
+## Config
+
+```yaml
+---
+
+teamcity_agent_user: 'teamcity-agent'
+teamcity_server_url: 'http://teamcity.changeme.com/'
+teamcity_agent_home_dir: '/home/{{ teamcity_agent_user }}'
+teamcity_agent_sh: '{{ teamcity_agent_home_dir }}/bin/agent.sh'
+teamcity_agent_conf: '{{ teamcity_agent_home_dir }}/conf/buildAgent.properties'
+```
