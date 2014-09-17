@@ -16,19 +16,15 @@
   when: selections|failed
   tags: [packages,java-license,java]
 
-- name: Install python-pycurl
-  apt: pkg=python-pycurl
-  tags: [packages,java-ppa,java]
-
-- name: Add webupd8team PPA
-  apt_repository: repo=ppa:webupd8team/java
-                  update_cache=yes
-  tags: [packages,java-ppa,java]
-
-- name: Install Java8
-  apt: pkg=oracle-java8-installer
+- include: ../../shared/install-from-ppa.yml
+  vars:
+    ppa: 'ppa:webupd8team/java'
+    package: 'oracle-java8-installer'
   tags: [packages,java]
 
-- name: Install java8 as default
-  apt: pkg=oracle-java8-set-default
+- include: ../../shared/install-from-ppa.yml
+  vars:
+    ppa: 'ppa:webupd8team/java'
+    package: 'oracle-java8-set-default'
   tags: [packages,java-default,java]
+
