@@ -14,7 +14,7 @@
   tags: [sshd,common]
 
 - name: Set timezone
-  copy: content='{{ timezone }}'
+  copy: content='{{ timezone }}\n'
         dest=/etc/timezone
         owner=root
         group=root
