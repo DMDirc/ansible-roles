@@ -1,0 +1,43 @@
+---
+
+- name: create dfbnc user
+  user: name={{ dfbnc_user }}
+  tags: [dfbnc-user,dfbnc]
+
+- name: install ant
+  apt: pkg=ant
+  tags: [packages,dfbnc-dependencies,dfbnc]
+
+  # TODO: This always does a remote submodule update which
+  #       is wrong, and makes the step show as changed.
+- include: ../../shared/deploy-git-project.yml
+  vars:
+    repo: https://github.com/ShaneMcC/DFBnc.git
+    user: "{{ dfbnc_user }}"
+    dest: "{{ dfbnc_dir }}/src"
+  tags: [dfbnc]
+
+- name: build dfbnc
+  sudo_user: "{{ dfbnc_user }}"
+  environment:
+    LANG: en_US.UTF-8
+    LC_CTYPE: en_US.UTF-8
+  command: chdir={{ dfbnc_dir }}/src
+           creates={{ dfbnc_dir }}/src/dist/dfbnc.jar
+           ant jar
+  tags: [dfbnc-setup,dfbnc]
+
+- name: create config directory
+  sudo_user: "{{ dfbnc_user }}"
+  file: owner={{ dfbnc_user }}
+        path={{ dfbnc_dir }}/DFBnc
+        state=directory
+  tags: [dfbnc-setup,dfbnc-config,dfbnc]
+
+- name: copy config
+  sudo_user: "{{ dfbnc_user }}"
+  template: src=dfbnc.conf.j2
+            dest={{ dfbnc_dir }}/DFBnc/DFBnc.conf
+            owner={{ dfbnc_user }}
+            mode=0644
+  tags: [dfbnc-setup,dfbnc-config,dfbnc]
