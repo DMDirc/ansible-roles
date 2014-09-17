@@ -1,4 +1,3 @@
-ansible-roles
-=============
+This is a collection of ansible roles.
 
-Generic roles for ansible
+I'll add descriptions here at some point...
