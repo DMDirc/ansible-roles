@@ -1,0 +1,14 @@
+---
+
+- name: Install dependencies
+  apt: pkg={{ item }}
+  with_items:
+    - libsqlite3-dev
+    - build-essential
+  tags: [packages,tapchat-dependencies,tapchat]
+
+- name: Install tapchat
+  npm: name=tapchat
+       global=yes
+  tags: [packages,tapchat]
+
