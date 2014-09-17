@@ -30,9 +30,11 @@ Clones, builds and configures DFBnc
 
 ### Config
 
+```yaml
 dfbnc_user: bouncer
 dfbnc_dir: /home/{{dfbnc_user}}/dfbnc
 dfbnc_listenhosts: 0.0.0.0:33262
+```
 
 ## Java8
 
