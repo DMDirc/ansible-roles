@@ -11,6 +11,9 @@ general:
 debugging:
 
 ssl:
+  keystore=keystore.ks
+  storepass={{ random_password.stdout }}
+  keypass={{ random_password.stdout }}
 
 timeout:
 

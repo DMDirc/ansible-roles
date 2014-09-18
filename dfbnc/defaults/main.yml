@@ -1,5 +1,6 @@
 ---
 
 dfbnc_user: bouncer
-dfbnc_dir: /home/{{dfbnc_user}}/dfbnc
-dfbnc_listenhosts: 0.0.0.0:33262
+dfbnc_dir: /home/{{ dfbnc_user }}/dfbnc
+dfbnc_listenhosts: 0.0.0.0:+33262
+dfbnc_ssl_dn: CN={{ inventory_hostname }},DC=dfbnc,DC=github,DC=com

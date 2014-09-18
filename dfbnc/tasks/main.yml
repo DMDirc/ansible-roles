@@ -11,6 +11,7 @@
   # TODO: This always does a remote submodule update which
   #       is wrong, and makes the step show as changed.
 - include: ../../shared/deploy-git-project.yml
+  sudo_user: "{{ dfbnc_user }}"
   vars:
     repo: https://github.com/ShaneMcC/DFBnc.git
     user: "{{ dfbnc_user }}"
@@ -34,10 +35,25 @@
         state=directory
   tags: [dfbnc-setup,dfbnc-config,dfbnc]
 
+- include: ../../shared/generate-password.yml
+  tags: [dfbnc-setup,dfbnc-config,dfbnc-ssl,dfbnc]
+
+- name: create keystore
+  sudo_user: "{{ dfbnc_user }}"
+  command: chdir={{ dfbnc_dir }}
+           creates={{ dfbnc_dir }}/keystore.ks
+           keytool -genkey -validity 365 -keystore "keystore.ks" -storepass "{{ random_password.stdout }}"
+                   -keypass "{{ random_password.stdout }}" -alias "default"
+                   -dname "{{ dfbnc_ssl_dn }}"
+  register: dfbnc_keystore_create
+  tags: [dfbnc-setup,dfbnc-config,dfbnc-ssl,dfbnc]
+
 - name: copy config
   sudo_user: "{{ dfbnc_user }}"
   template: src=dfbnc.conf.j2
             dest={{ dfbnc_dir }}/DFBnc/DFBnc.conf
             owner={{ dfbnc_user }}
             mode=0644
+  when: dfbnc_keystore_create.changed
   tags: [dfbnc-setup,dfbnc-config,dfbnc]
+

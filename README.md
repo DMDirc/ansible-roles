@@ -26,14 +26,18 @@ timezone: 'Europe/London'
 
 (Depends on Java8)
 
-Clones, builds and configures DFBnc
+Clones, builds and configures DFBnc.
+
+A new self-signed SSL certificate will be generated and DFBnc will be configured
+to use it.
 
 ### Config
 
 ```yaml
 dfbnc_user: bouncer
-dfbnc_dir: /home/{{dfbnc_user}}/dfbnc
-dfbnc_listenhosts: 0.0.0.0:33262
+dfbnc_dir: /home/{{ dfbnc_user }}/dfbnc
+dfbnc_listenhosts: 0.0.0.0:+33262
+dfbnc_ssl_dn: CN={{ inventory_hostname }},DC=dfbnc,DC=github,DC=com
 ```
 
 ## Java8
