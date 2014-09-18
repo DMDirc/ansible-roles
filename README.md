@@ -40,6 +40,10 @@ dfbnc_listenhosts: 0.0.0.0:33262
 
 Adds the webupd8 team PPA and installs java 8.
 
+## MySQL
+
+Installs MySQL and generates a random root password.
+
 ## Nginx
 
 Installs nginx.
