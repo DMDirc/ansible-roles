@@ -5,6 +5,7 @@
   apt: pkg=git
 
 - name: clone git repository
+  sudo: true
   sudo_user: "{{ user }}"
   git: accept_hostkey=yes
        dest={{ dest }}

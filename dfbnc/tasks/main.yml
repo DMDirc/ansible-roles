@@ -11,8 +11,6 @@
   # TODO: This always does a remote submodule update which
   #       is wrong, and makes the step show as changed.
 - include: ../../shared/deploy-git-project.yml
-  sudo: true
-  sudo_user: "{{ dfbnc_user }}"
   vars:
     repo: https://github.com/ShaneMcC/DFBnc.git
     user: "{{ dfbnc_user }}"
