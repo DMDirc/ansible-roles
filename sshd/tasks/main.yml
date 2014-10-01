@@ -7,5 +7,19 @@
             group=root
             mode=0644
   notify: [test sshd and restart]
-  tags: [sshd,common]
+  tags: [sshd]
 
+- name: add authorized keys
+  authorized_key: user=root
+                  key="{{ lookup('file', item) }}"
+  with_fileglob:
+    - "{{ ssh_root_key_glob }}"
+  tags: [sshd,sshd-keys]
+
+- name: revoke old authorized keys
+  authorized_key: user=root
+                  key="{{ lookup('file', item) }}"
+                  state=absent
+  with_fileglob:
+    - "{{ ssh_revoked_root_key_glob }}"
+  tags: [sshd, sshd-keys]
