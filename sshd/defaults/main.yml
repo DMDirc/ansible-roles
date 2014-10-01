@@ -1,0 +1,5 @@
+---
+
+sshd_port: 22
+sshd_allow_root: 'without-password'
+sshd_allow_passwords: 'no'

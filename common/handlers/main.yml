@@ -1,13 +1,4 @@
 ---
 
-- name: test sshd and restart
-  command: sshd -t
-  notify: [ 'restart sshd' ]
-
-- name: restart sshd
-  service:
-    name: 'ssh'
-    state: 'restarted'
-
 - name: update timezone
   command: dpkg-reconfigure --frontend noninteractive tzdata

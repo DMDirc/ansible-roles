@@ -4,15 +4,6 @@
   apt: name=vim state=present update_cache=yes
   tags: [packages,vim,common]
 
-- name: Copy sshd_config
-  template: src=sshd_config.j2
-            dest=/etc/ssh/sshd_config
-            owner=root
-            group=root
-            mode=0644
-  notify: [test sshd and restart]
-  tags: [sshd,common]
-
 - name: Set timezone
   copy: content='{{ timezone }}\n'
         dest=/etc/timezone
