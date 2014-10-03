@@ -1,8 +1,12 @@
 ---
 
 - name: Install vim
-  apt: name=vim state=present update_cache=yes
+  apt: name=vim state=present
   tags: [packages,vim,common]
+
+- name: Install mosh
+  apt: name=mosh state=present
+  tags: [packages,mosh,common]
 
 - name: Set timezone
   copy: content='{{ timezone }}\n'
