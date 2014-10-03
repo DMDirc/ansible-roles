@@ -4,76 +4,15 @@ This is a collection of Ansible roles I've used to provision my various servers.
 
 It contains the following roles:
 
-## Common
+* **Common** - Installs vim and mosh, creates locales and sets timezone.
+* **DFBnc** - Clones, builds and configures DFBnc, with a self-signed cert.
+* **Java8** - Adds the webupd8 team PPA and installs Java 8.
+* **MySQL** - Installs MySQL and generates a random root password.
+* **Nginx** - Installs NGinx
+* **NodeJS** - Uses the setup script from nodesource.com, and installs nodejs.
+* **Python-dev** - Installs packages required for Python development.
+* **SSHd** - Configures SSHd, and deploys/revokes root SSH keys.
+* **TapChat** - Installs TapChat and its dependencies.
+* **TeamCity Agent** - Downloads, unpacks and configures a TeamCity agent.
+* **Uswgi** - Installs and configures uwsgi, and adds an init script for it.
 
-Provides common tasks useful for most servers.
-
-* Installs a full copy of Vim
-* Installs a modified sshd_config
-* Sets the system timezone
-
-### Config
-
-```yaml
-sshd_port: 22
-sshd_allow_root: 'without-password'
-sshd_allow_passwords: 'no'
-
-timezone: 'Europe/London'
-```
-
-## DFBnc
-
-(Depends on Java8)
-
-Clones, builds and configures DFBnc.
-
-A new self-signed SSL certificate will be generated and DFBnc will be configured
-to use it.
-
-### Config
-
-```yaml
-dfbnc_user: bouncer
-dfbnc_dir: /home/{{ dfbnc_user }}/dfbnc
-dfbnc_listenhosts: 0.0.0.0:+33262
-dfbnc_ssl_dn: CN={{ inventory_hostname }},DC=dfbnc,DC=github,DC=com
-```
-
-## Java8
-
-Adds the webupd8 team PPA and installs java 8.
-
-## MySQL
-
-Installs MySQL and generates a random root password.
-
-## Nginx
-
-Installs nginx.
-
-## NodeJS
-
-Executes the nodesource.com setup script to add a repository, then installs
-nodejs.
-
-## TapChat
-
-(Depends on NodeJS)
-
-Installs TapChat and its dependencies.
-
-## TeamCity Agent
-
-Creates a new user account, then downloads, unpacks and configures a
-TeamCity build agent.
-
-### Config
-
-```yaml
-teamcity_agent_user: 'teamcity-agent'
-teamcity_server_url: 'http://teamcity.changeme.com/'
-teamcity_agent_home_dir: '/home/{{ teamcity_agent_user }}'
-teamcity_agent_sh: '{{ teamcity_agent_home_dir }}/bin/agent.sh'
-teamcity_agent_conf: '{{ teamcity_agent_home_dir }}/conf/buildAgent.properties'
-```
