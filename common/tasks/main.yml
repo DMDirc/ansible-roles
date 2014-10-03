@@ -16,3 +16,8 @@
         mode=0644
   notify: [update timezone]
   tags: [time,common]
+
+- name: Create locales
+  locale_gen: name={{ item }} state=present
+  with_items: locales
+  tags: [locale,common]
