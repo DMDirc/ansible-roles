@@ -11,6 +11,7 @@ It contains the following roles:
 * **Nginx** - Installs NGinx
 * **NodeJS** - Uses the setup script from nodesource.com, and installs nodejs.
 * **Python-dev** - Installs packages required for Python development.
+* **Sentry** - Installs the sentry error logging platform.
 * **SSHd** - Configures SSHd, and deploys/revokes root SSH keys.
 * **TapChat** - Installs TapChat and its dependencies.
 * **TeamCity Agent** - Downloads, unpacks and configures a TeamCity agent.

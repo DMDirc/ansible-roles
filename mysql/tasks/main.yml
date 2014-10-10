@@ -9,6 +9,10 @@
   apt: package=python-mysqldb
   tags: [packages,mysql]
 
+- name: install client dev library
+  apt: package=libmysqlclient-dev
+  tags: [packages,mysql]
+
 - name: ensure started
   service: name=mysql
            state=started
