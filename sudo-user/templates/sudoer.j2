@@ -1,0 +1,7 @@
+# This file was installed by Ansible. Modifications may be lost.
+
+{% if sudoer_need_password -%}
+  {{ sudoer_user }} ALL=(ALL) ALL
+{% else -%}
+  {{ sudoer_user }} ALL=(ALL) NOPASSWD:ALL
+{% endif %}
