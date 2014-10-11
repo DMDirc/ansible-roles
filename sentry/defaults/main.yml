@@ -2,3 +2,13 @@
 
 sentry_user: sentry
 sentry_dir: /home/sentry/sentry
+
+sentry_db_name: sentry
+sentry_db_user: sentry
+sentry_db_host: localhost
+sentry_db_port: 3306
+
+sentry_url: http://sentry.dmdirc.com
+sentry_port: 7027
+
+sentry_email_address: sentry-noreply@dmdirc.com
