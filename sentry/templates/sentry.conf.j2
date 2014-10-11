@@ -4,14 +4,18 @@
 # you can inherit and tweak settings to your hearts content.
 from sentry.conf.server import *
 
+import base64
 import os.path
 
 CONF_ROOT = os.path.dirname(__file__)
 
-# Read MySQL password from a separate file. This allows ansible to update the
-# main config file without having to know the password.
+# Read private information from separate files. This allows ansible to update
+# the main config file without having to know the password.
 with file(os.path.join(CONF_ROOT, 'mysql.pass')) as f:
     mysql_pass = f.read().strip()
+
+with file(os.path.join(CONF_ROOT, 'secret.key')) as f:
+    secret_key = base64.b64encode(f.read().strip())
 
 DATABASES = {
     'default': {
@@ -133,7 +137,7 @@ SERVER_EMAIL = '{{ sentry_email_address }}'
 
 # If this file ever becomes compromised, it's important to regenerate your SECRET_KEY
 # Changing this value will result in all current sessions being invalidated
-SECRET_KEY = '' # TODO: Read this from a file
+SECRET_KEY = secret_key
 
 # http://twitter.com/apps/new
 # It's important that input a callback URL, even if its useless. We have no idea why, consult Twitter.

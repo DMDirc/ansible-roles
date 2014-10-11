@@ -20,7 +20,8 @@
   sudo: true
   sudo_user: "{{ sentry_user }}"
   command: "{{ sentry_dir }}/exec easy_install -UZ sentry[mysql]
-           creates={{ sentry_dir }}/bin/sentry"
+            creates={{ sentry_dir }}/bin/sentry"
+  register: sentry_install
 
 - name: Create sentry configuration dir
   sudo: true
@@ -33,6 +34,7 @@
   sudo_user: "{{ sentry_user }}"
   template: src=sentry.conf.j2
             dest={{ sentry_dir }}/etc/sentry.conf
+  register: sentry_config
 
 - name: Create MySQL database
   mysql_db: name={{ sentry_db_name }}
@@ -42,9 +44,9 @@
   when: sentry_db_create.changed
 
 - name: Create MySQL user
-  mysql_user: name={{ sentry_db_user }}}
+  mysql_user: name={{ sentry_db_user }}
               password={{ random_password.stdout }}
-              priv={{ sentry_db_name }}.*:ALL
+              priv=*.*:USAGE/{{ sentry_db_name }}.*:ALL
   when: sentry_db_create.changed
 
 - name: Store MySQL user password
@@ -53,3 +55,17 @@
         owner={{ sentry_user }}
         mode=600
   when: sentry_db_create.changed
+
+- include: ../../shared/generate-password.yml
+  when: sentry_config.changed
+
+- name: Write random session ID
+  copy: dest={{ sentry_dir }}/etc/secret.key
+        content="{{ random_password.stdout }}"
+        owner={{ sentry_user }}
+        mode=600
+  when: sentry_config.changed
+
+- name: Upgrade/create sentry database schema
+  command: "{{ sentry_dir }}/exec sentry --config={{ sentry_dir }}/etc/sentry.conf upgrade"
+  when: sentry_db_create.changed or sentry_config.changed or sentry_install.changed
