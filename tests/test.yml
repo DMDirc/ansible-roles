@@ -1,0 +1,17 @@
+---
+- hosts: localhost
+  remote_user: root
+  roles:
+    - common
+    - dfbnc
+    - java8
+    - mysql
+    - nginx
+    - nodejs
+    - php5-fpm-nginx
+    - postfix
+    - sshd
+    - sudoers
+    - {role: user, user_name: test123}
+    - {role: sudo-user, sodoer_user: test123}
+    - uwsgi
