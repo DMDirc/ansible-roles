@@ -11,17 +11,17 @@ sentry_db_host: localhost
 sentry_db_port: 3306
 
 # The URL that sentry will be accessed on
-sentry_url: http://sentry.dmdirc.com
+sentry_url: http://sentry.example.com
 
 # The port to serve Sentry on
-sentry_port: 7027
+sentry_port: 9000
 
 # 'From' address to use when sending e-mails
-sentry_email_address: sentry-noreply@dmdirc.com
+sentry_email_address: sentry-noreply@example.com
 
 # Default super-user details.
 sentry_superuser_name: admin
-sentry_superuser_email: devs-public@dmdirc.com
+sentry_superuser_email: admin@example.com
 
 # Social OAUth configuration
 sentry_twitter_key: ""
