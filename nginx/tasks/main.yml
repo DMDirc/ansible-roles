@@ -6,14 +6,14 @@
 
 - name: Configure nginx
   copy:
-    src: nginx.conf.j2
+    src: nginx.conf
     dest: /etc/nginx/nginx.conf
   notify: reload nginx
   tags: [packages,nginx]
 
 - name: Add mime types
   copy:
-    src: mime.types.j2
+    src: mime.types
     dest: /etc/nginx/mime.types
   notify: reload nginx
   tags: [packages,nginx]
