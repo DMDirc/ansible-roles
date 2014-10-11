@@ -1,3 +1,5 @@
+# This file was installed by Ansible. Modifications may be lost.
+
 # This file is just Python, with a touch of Django which means you
 # you can inherit and tweak settings to your hearts content.
 from sentry.conf.server import *
@@ -5,6 +7,11 @@ from sentry.conf.server import *
 import os.path
 
 CONF_ROOT = os.path.dirname(__file__)
+
+# Read MySQL password from a separate file. This allows ansible to update the
+# main config file without having to know the password.
+with file(os.path.join(CONF_ROOT, 'mysql.pass')) as f:
+    mysql_pass = f.read().strip()
 
 DATABASES = {
     'default': {
@@ -18,7 +25,7 @@ DATABASES = {
 
         'NAME': '{{ sentry_db_name }}',
         'USER': '{{ sentry_db_user }}',
-        'PASSWORD': '', # TODO: Read this from a file
+        'PASSWORD': mysql_pass,
         'HOST': '{{ sentry_db_host }}',
         'PORT': '{{ sentry_db_port }}',
 

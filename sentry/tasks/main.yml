@@ -33,3 +33,23 @@
   sudo_user: "{{ sentry_user }}"
   template: src=sentry.conf.j2
             dest={{ sentry_dir }}/etc/sentry.conf
+
+- name: Create MySQL database
+  mysql_db: name={{ sentry_db_name }}
+  register: sentry_db_create
+
+- include: ../../shared/generate-password.yml
+  when: sentry_db_create.changed
+
+- name: Create MySQL user
+  mysql_user: name={{ sentry_db_user }}}
+              password={{ random_password.stdout }}
+              priv={{ sentry_db_name }}.*:ALL
+  when: sentry_db_create.changed
+
+- name: Store MySQL user password
+  copy: dest={{ sentry_dir }}/etc/mysql.pass
+        content="{{ random_password.stdout }}"
+        owner={{ sentry_user }}
+        mode=600
+  when: sentry_db_create.changed
