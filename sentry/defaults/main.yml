@@ -22,6 +22,12 @@ sentry_email_address: sentry-noreply@example.com
 # Default super-user details.
 sentry_superuser_name: admin
 sentry_superuser_email: admin@example.com
+sentry_superuser_password: changeme
+
+# Team and project defaults
+sentry_team_name: team
+sentry_project_name: project
+sentry_project_platform: java
 
 # Social OAUth configuration
 sentry_twitter_key: ""

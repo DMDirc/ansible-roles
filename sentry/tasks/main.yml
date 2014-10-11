@@ -27,18 +27,11 @@
   register: sentry_install
   tags: [sentry]
 
-- name: Create sentry configuration dir
-  sudo: true
-  sudo_user: "{{ sentry_user }}"
-  file: path={{ sentry_dir }}/etc
-        state=directory
-  tags: [sentry,sentry-conf]
-
 - name: Copy sentry configuration
   sudo: true
   sudo_user: "{{ sentry_user }}"
   template: src=sentry.conf.j2
-            dest={{ sentry_dir }}/etc/sentry.conf
+            dest={{ sentry_dir }}/config.py
   register: sentry_config
   tags: [sentry,sentry-conf]
 
@@ -59,7 +52,7 @@
   tags: [sentry,sentry-mysql]
 
 - name: Store MySQL user password
-  copy: dest={{ sentry_dir }}/etc/mysql.pass
+  copy: dest={{ sentry_dir }}/mysql.pass
         content="{{ random_password.stdout }}"
         owner={{ sentry_user }}
         mode=600
@@ -71,7 +64,7 @@
   tags: [sentry,sentry-conf]
 
 - name: Write random session ID
-  copy: dest={{ sentry_dir }}/etc/secret.key
+  copy: dest={{ sentry_dir }}/secret.key
         content="{{ random_password.stdout }}"
         owner={{ sentry_user }}
         mode=600
@@ -79,14 +72,21 @@
   tags: [sentry,sentry-conf]
 
 - name: Upgrade/create sentry database schema
-  command: "{{ sentry_dir }}/exec sentry --config={{ sentry_dir }}/etc/sentry.conf upgrade --noinput"
-  when: sentry_db_create.changed or sentry_config.changed or sentry_install.changed
+  command: "{{ sentry_dir }}/exec sentry --config={{ sentry_dir }}/config.py upgrade --noinput"
+  when: sentry_db_create.changed or sentry_config.changed
   tags: [sentry]
 
-- name: Create superuser
-  command: "{{ sentry_dir }}/exec sentry --config={{ sentry_dir }}/etc/sentry.conf createsuperuser
-            --user={{ sentry_superuser_name }}
-            --email={{ sentry_superuser_email }}
-            --noinput"
-  when: sentry_db_create.changed
-  tags: [sentry]
+- name: Deploy setup script
+  template: src=setup.py.j2
+            dest={{ sentry_dir }}/setup.py
+            owner={{ sentry_user }}
+            mode=0755
+  register: sentry_setup
+  tags: [sentry,sentry-setup]
+
+- name: Run setup script
+  sudo: true
+  sudo_user: "{{ sentry_user }}"
+  command: "{{ sentry_dir }}/exec {{ sentry_dir }}/setup.py chdir={{ sentry_dir }}"
+  when: sentry_setup.changed
+  tags: [sentry,sentry-setup]
