@@ -8,4 +8,4 @@
     - sshd
     - sudoers
     - {role: user, user_name: test123}
-    - {role: sudo-user, sodoer_user: test123}
+    - {role: sudo-user, sudoer_user: test123}
