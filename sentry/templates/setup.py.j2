@@ -1,0 +1,33 @@
+#!{{ sentry_dir }}/bin/python
+#
+# Automatically creates a default superuser, team and project.
+
+import os
+
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config')
+
+from sentry.models import User, Team, Project
+
+admin, created = User.objects.get_or_create(
+    username="{{ sentry_superuser_name }}",
+    defaults={
+        "is_superuser": True,
+        "is_staff": True,
+        "email": "{{ sentry_superuser_email }}"
+    })
+
+if created:
+    admin.set_password("{{ sentry_superuser_password }}")
+    admin.save()
+
+team, created = Team.objects.get_or_create(
+    name="{{ sentry_team_name }}",
+    defaults={"owner": admin})
+
+Project.objects.get_or_create(
+    name="{{ sentry_project_name }}",
+    defaults={
+        "team": team,
+        "owner": admin,
+        "platform": "{{ sentry_project_platform }}"
+    })
