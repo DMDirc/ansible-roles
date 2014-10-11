@@ -1,0 +1,3 @@
+---
+nginx_upstream_site_root: "/home/{{ nginx_upstream_site_user }}"
+nginx_upstream_site_ssldn: "/C=GB/ST=London/L=London/O={{ nginx_upstream_site_user }}/CN={{ nginx_upstream_site_hostname }}"
