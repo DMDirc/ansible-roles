@@ -13,6 +13,7 @@ It contains the following roles:
 * **Python-dev** - Installs packages required for Python development.
 * **Sentry** - Installs the sentry error logging platform.
 * **SSHd** - Configures SSHd, and deploys/revokes root SSH keys.
+* **Sudoers** - Configures the system to look in /etc/sudoers.d for sudo config.
 * **TapChat** - Installs TapChat and its dependencies.
 * **TeamCity Agent** - Downloads, unpacks and configures a TeamCity agent.
 * **Uswgi** - Installs and configures uwsgi, and adds an init script for it.
