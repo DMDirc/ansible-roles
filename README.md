@@ -17,5 +17,6 @@ It contains the following roles:
 * **Sudo-user** - Sets up one user to use sudo, with or without a password requirement.
 * **TapChat** - Installs TapChat and its dependencies.
 * **TeamCity Agent** - Downloads, unpacks and configures a TeamCity agent.
+* **User** - Create a user account.
 * **Uswgi** - Installs and configures uwsgi, and adds an init script for it.
 
