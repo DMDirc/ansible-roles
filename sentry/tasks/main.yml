@@ -90,3 +90,9 @@
   command: "{{ sentry_dir }}/exec {{ sentry_dir }}/setup.py chdir={{ sentry_dir }}"
   when: sentry_setup.changed
   tags: [sentry,sentry-setup]
+
+- name: Install Supervisor configuration
+  template: src=supervisor.j2
+            dest=/etc/supervisor/conf.d/sentry.conf
+  notify: [reload supervisor]
+  tags: [sentry, sentry-supervisor]
