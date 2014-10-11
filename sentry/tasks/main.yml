@@ -79,6 +79,14 @@
   tags: [sentry,sentry-conf]
 
 - name: Upgrade/create sentry database schema
-  command: "{{ sentry_dir }}/exec sentry --config={{ sentry_dir }}/etc/sentry.conf upgrade"
+  command: "{{ sentry_dir }}/exec sentry --config={{ sentry_dir }}/etc/sentry.conf upgrade --noinput"
   when: sentry_db_create.changed or sentry_config.changed or sentry_install.changed
+  tags: [sentry]
+
+- name: Create superuser
+  command: "{{ sentry_dir }}/exec sentry --config={{ sentry_dir }}/etc/sentry.conf createsuperuser
+            --user={{ sentry_superuser_name }}
+            --email={{ sentry_superuser_email }}
+            --noinput"
+  when: sentry_db_create.changed
   tags: [sentry]
