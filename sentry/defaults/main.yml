@@ -1,17 +1,38 @@
 ---
 
+# User account and directory to use
 sentry_user: sentry
 sentry_dir: /home/sentry/sentry
 
+# MySQL database details
 sentry_db_name: sentry
 sentry_db_user: sentry
 sentry_db_host: localhost
 sentry_db_port: 3306
 
+# The URL that sentry will be accessed on
 sentry_url: http://sentry.dmdirc.com
+
+# The port to serve Sentry on
 sentry_port: 7027
 
+# 'From' address to use when sending e-mails
 sentry_email_address: sentry-noreply@dmdirc.com
 
+# Default super-user details.
 sentry_superuser_name: admin
 sentry_superuser_email: devs-public@dmdirc.com
+
+# Social OAUth configuration
+sentry_twitter_key: ""
+sentry_twitter_secret: ""
+sentry_facebook_id: ""
+sentry_facebook_secret: ""
+sentry_google_id: ""
+sentry_google_secret: ""
+sentry_github_id: ""
+sentry_github_secret: ""
+sentry_trello_key: ""
+sentry_trello_secret: ""
+sentry_bitbucket_key: ""
+sentry_bitbucket_secret: ""
