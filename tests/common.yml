@@ -1,0 +1,11 @@
+---
+- hosts: localhost
+  remote_user: root
+  roles:
+    - common
+    - nginx
+    - php5-fpm-nginx
+    - sshd
+    - sudoers
+    - {role: user, user_name: test123}
+    - {role: sudo-user, sudoer_user: test123}
