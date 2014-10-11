@@ -2,15 +2,15 @@
 
 - name: Create {{ user_name }} user
   user: name={{ user_name }}
-        comment={{ user_comment }}
+        comment="{{ user_comment }}"
         groups={{ user_groups }}
         shell={{ user_shell }}
-        password={{ user_password }}
+        password="{{ user_password }}"
         update_password="on_create"
   tags: [user]
 
 - name: Deploy ssh key for {{ user_name }}
   authorized_key: user={{ user_name }}
-                  key={{ item }}
+                  key="{{ item }}"
   with_items: user_keys
   tags: [user]
