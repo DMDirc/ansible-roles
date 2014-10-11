@@ -1,0 +1,55 @@
+---
+- name: Create {{ nginx_php_site_user }}" group
+  group:
+    name: "{{ nginx_php_site_user }}"
+  tags: [sites,nginx-php-site]
+- name: Create {{ nginx_php_site_user }}" user
+  user:
+    name: "{{ nginx_php_site_user }}"
+    comment: "{{ nginx_php_site_user }} user"
+    group: "{{ nginx_php_site_user }}"
+    home: "{{ nginx_php_site_root }}"
+  tags: [sites,nginx-php-site]
+- name: Create {{ nginx_php_site_user }}" site doc root
+  file:
+    path: "{{ nginx_php_site_root }}/www"
+    state: directory
+    group: "{{ nginx_php_site_user }}"
+    owner: "{{ nginx_php_site_user }}"
+  tags: [sites,nginx-php-site]
+- name: Create {{ nginx_php_site_user }}" site ssl
+  file:
+    path: "{{ nginx_php_site_root }}/ssl"
+    state: directory 
+  tags: [sites,nginx-php-site]
+- name: Create {{ nginx_php_site_user }}" site
+  template:
+    src: site.conf
+    dest: "{{ nginx_sites_available }}/{{ nginx_php_site_user }}"
+  notify: restart nginx
+  tags: [sites,nginx-php-site]
+- name: Create {{ nginx_php_site_user }} symlink
+  file:
+    src: "{{ nginx_sites_available }}/{{ nginx_php_site_user }}"
+    dest: "{{ nginx_sites_enabled }}/{{ nginx_php_site_user }}"
+    state: link
+  notify: restart nginx
+  tags: [sites,nginx-php-site]
+- name: Create php config
+  template:
+    src: php.conf
+    dest: "{{ php5_fpm_pool_path }}/{{ nginx_php_site_user }}.conf"
+  notify: restart-php
+  tags: [sites,nginx-php-site]
+- name: create self-signed SSL cert
+  command: openssl req -new -nodes -x509 -subj "{{ nginx_php_site_ssldn }}" -days 3650 -keyout {{ nginx_php_site_root}}/ssl/ssl.key -out {{ nginx_php_site_root}}/ssl/ssl.pem -extensions v3_ca creates={{ nginx_php_site_root}}/ssl/ssl.pem
+  notify: restart nginx
+  tags: [sites,nginx-php-site]
+- name: Create log directory
+  file:
+    path: "{{ nginx_php_site_root }}/logs"
+    state: directory
+    group: "{{ nginx_php_site_user }}"
+    owner: "{{ nginx_php_site_user }}"
+  notify: restart nginx
+  tags: [sites,nginx-php-site]
