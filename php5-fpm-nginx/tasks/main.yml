@@ -1,6 +1,10 @@
 ---
+- name: Make sure config directory exists
+  file:
+    path: "{{ php5_fpm_nginx_config_dir }}"
+    state: directory
 - name: Copy PHP config for nginx
-  copy:
+  template:
     src: php.conf
-    dest: /etc/nginx/php.conf
+    dest: "{{ php5_fpm_nginx_config_dir }}/php.conf"
   tags: [package,php5-fpm,nginx]
