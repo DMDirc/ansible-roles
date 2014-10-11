@@ -1,0 +1,6 @@
+---
+- name: Copy PHP config for nginx
+  copy:
+    src: php.conf
+    dest: /etc/nginx/php.conf
+  tags: [package,php5-fpm,nginx]
