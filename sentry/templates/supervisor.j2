@@ -1,0 +1,7 @@
+[program:sentry-web]
+directory={{ sentry_dir }}
+command={{ sentry_dir }}/bin/sentry --config={{ sentry_dir }}/config.py start
+autostart=true
+autorestart=true
+redirect_stderr=true
+user={{ sentry_user }}
