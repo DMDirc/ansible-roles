@@ -26,14 +26,14 @@
   template:
     src: site.conf
     dest: "{{ nginx_sites_available }}/{{ nginx_php_site_user }}"
-  notify: restart-webserver
+  notify: restart-nginx
   tags: [sites,nginx-php-site]
 - name: Create feedback symlink
   file:
     src: "{{ nginx_sites_available }}/{{ nginx_php_site_user }}"
     dest: "{{ nginx_sites_enabled }}/{{ nginx_php_site_user }}"
     state: link
-  notify: restart-webserver
+  notify: restart-nginx
   tags: [sites,nginx-php-site]
 - name: Create php config
   template:
@@ -42,8 +42,8 @@
   notify: restart-php
   tags: [sites,nginx-php-site]
 - name: create self-signed SSL cert
-  command: openssl req -new -nodes -x509 -subj "/C=GB/ST=London/L=London/O=DMDirc/CN={{ nginx_php_site_hostname }}" -days 3650 -keyout {{ nginx_php_site_root}}/ssl/ssl.key -out {{ nginx_php_site_root}}/ssl/ssl.pem -extensions v3_ca creates={{ nginx_php_site_root}}/ssl/ssl.pem
-  notify: restart-webserver
+  command: openssl req -new -nodes -x509 -subj "{{ nginx_php_site_ssldn }}" -days 3650 -keyout {{ nginx_php_site_root}}/ssl/ssl.key -out {{ nginx_php_site_root}}/ssl/ssl.pem -extensions v3_ca creates={{ nginx_php_site_root}}/ssl/ssl.pem
+  notify: restart-nginx
   tags: [sites,nginx-php-site]
 - name: Create log directory
   file:
@@ -51,5 +51,5 @@
     state: directory
     group: "{{ nginx_php_site_user }}"
     owner: "{{ nginx_php_site_user }}"
-  notify: restart-webserver
+  notify: restart-nginx
   tags: [sites,nginx-php-site]
