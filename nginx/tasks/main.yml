@@ -4,7 +4,7 @@
   tags: [packages,nginx]
 
 - name: Install nginx
-  apt: name=nginx state=present update_cache=yes
+  apt: name=nginx state=present
   tags: [packages,nginx]
 
 - name: Configure nginx
