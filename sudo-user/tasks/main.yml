@@ -1,0 +1,10 @@
+---
+
+- name: Add {{ sudoer_user }} to sudoers
+  template: src=sudoer.j2
+            dest=/etc/sudoers.d/{{ sudoer_user }}
+            owner=root
+            group=root
+            mode=0440
+  tags: [sudoers, user]
+

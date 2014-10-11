@@ -14,6 +14,7 @@ It contains the following roles:
 * **Sentry** - Installs the sentry error logging platform.
 * **SSHd** - Configures SSHd, and deploys/revokes root SSH keys.
 * **Sudoers** - Configures the system to look in /etc/sudoers.d for sudo config.
+* **Sudo-user** - Sets up one user to use sudo, with or without a password requirement.
 * **TapChat** - Installs TapChat and its dependencies.
 * **TeamCity Agent** - Downloads, unpacks and configures a TeamCity agent.
 * **Uswgi** - Installs and configures uwsgi, and adds an init script for it.
