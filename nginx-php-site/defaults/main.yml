@@ -1,0 +1,3 @@
+---
+nginx_php_site_user: sites-feedback
+nginx_php_site_root: /home/{{ nginx_php_site_user }}
