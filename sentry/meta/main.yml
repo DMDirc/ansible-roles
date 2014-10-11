@@ -4,3 +4,4 @@ dependencies:
   - mysql
   - postfix
   - python-dev
+  - supervisor
