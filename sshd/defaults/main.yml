@@ -1,0 +1,7 @@
+---
+
+sshd_port: 22
+sshd_allow_root: 'without-password'
+sshd_allow_passwords: 'no'
+ssh_root_key_glob: /doesnt/exist
+ssh_revoked_root_key_glob: /doesnt/exist

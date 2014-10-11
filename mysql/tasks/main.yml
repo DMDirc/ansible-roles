@@ -1,0 +1,36 @@
+---
+
+- name: install mysql
+  apt: package=mysql-server
+  register: mysql_install
+  tags: [packages,mysql]
+
+- name: install python library
+  apt: package=python-mysqldb
+  tags: [packages,mysql]
+
+- name: install client dev library
+  apt: package=libmysqlclient-dev
+  tags: [packages,mysql]
+
+- name: ensure started
+  service: name=mysql
+           state=started
+           enabled=yes
+  tags: [mysql]
+
+- include: ../../shared/generate-password.yml
+  when: mysql_install.changed
+  tags: [mysql,mysql-root]
+
+- name: configure root password
+  mysql_user: name=root
+              password={{ random_password.stdout }}
+  when: mysql_install.changed
+  tags: [mysql,mysql-root]
+
+- name: configure the new password
+  template: src=my.cnf.j2 dest=/root/.my.cnf owner=root group=root mode=0600
+  when: mysql_install.changed
+  tags: [mysql,mysql-root]
+

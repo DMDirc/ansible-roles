@@ -1,0 +1,57 @@
+---
+
+- name: create teamcity user
+  user: name={{ teamcity_agent_user }}
+        generate_ssh_key=yes
+  tags: [teamcity-agent,teamcity-agent-user]
+
+- name: install unzip from apt
+  apt: package=unzip
+  tags: [teamcity-agent,teamcity-agent-prereqs]
+
+- name: fetch agent zip
+  sudo: true
+  sudo_user: "{{ teamcity_agent_user }}"
+  get_url: url={{ teamcity_server_url }}update/buildAgent.zip
+           dest={{ teamcity_agent_home_dir }}
+  tags: [teamcity-agent]
+
+- name: unpack agent zip
+  sudo: true
+  sudo_user: "{{ teamcity_agent_user }}"
+  command: creates={{ teamcity_agent_sh }}
+           chdir={{ teamcity_agent_home_dir }}
+           unzip -o buildAgent.zip
+  tags: [teamcity-agent]
+
+- name: make agent.sh executable
+  sudo: true
+  sudo_user: "{{ teamcity_agent_user }}"
+  file: path={{ teamcity_agent_sh }}
+        mode=0755
+  tags: [teamcity-agent]
+
+- name: copy default teamcity_agent_configuration
+  sudo: true
+  sudo_user: "{{ teamcity_agent_user }}"
+  command: creates={{ teamcity_agent_conf }}
+           chdir={{ teamcity_agent_home_dir }}/conf
+           cp buildAgent.dist.properties buildAgent.properties
+  tags: [teamcity-agent,teamcity-agent-config]
+
+- name: set teamcity server URL
+  sudo: true
+  sudo_user: "{{ teamcity_agent_user }}"
+  lineinfile: dest={{ teamcity_agent_conf }}
+              regexp=^serverUrl=
+              line=serverUrl={{ teamcity_server_url }}
+  tags: [teamcity-agent,teamcity-agent-config]
+
+- name: set build agent name
+  sudo: true
+  sudo_user: "{{ teamcity_agent_user }}"
+  lineinfile: dest={{ teamcity_agent_conf }}
+              regexp=^name=
+              line=name={{ inventory_hostname }}
+  tags: [teamcity-agent,teamcity-agent-config]
+

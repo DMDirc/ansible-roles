@@ -1,0 +1,18 @@
+---
+
+- name: install python-dev
+  apt: package=python-dev
+  tags: [packages,python]
+
+- name: install python-pip
+  apt: package=python-pip
+  tags: [packages,python,pip]
+
+- name: install python-setuptools
+  apt: package=python-setuptools
+  tags: [packages,python,setuptools]
+
+- name: install virtualenv
+  pip: name=virtualenv
+  tags: [packages,python,pip,virtualenv]
+

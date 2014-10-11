@@ -1,0 +1,4 @@
+---
+
+uwsgi_config_dir: /etc/uswgi/
+uwsgi_log_dir: /var/log/uwsgi/

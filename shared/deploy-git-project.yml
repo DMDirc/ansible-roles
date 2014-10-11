@@ -1,0 +1,13 @@
+---
+# Installs git and clones a repository
+
+- name: install git
+  apt: pkg=git
+
+- name: clone git repository
+  sudo: true
+  sudo_user: "{{ user }}"
+  git: accept_hostkey=yes
+       dest={{ dest }}
+       repo={{ repo }}
+

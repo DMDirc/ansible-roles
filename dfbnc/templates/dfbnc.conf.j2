@@ -1,0 +1,19 @@
+keysections:
+  general
+  debugging
+  ssl
+  timeout
+
+general:
+  serverName=DFBnc.Server
+  listenhost={{ dfbnc_listenhosts }}
+
+debugging:
+
+ssl:
+  keystore=keystore.ks
+  storepass={{ random_password.stdout }}
+  keypass={{ random_password.stdout }}
+
+timeout:
+

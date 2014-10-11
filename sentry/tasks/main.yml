@@ -1,0 +1,23 @@
+---
+
+- name: Create sentry user
+  user: name={{ sentry_user }}
+
+- name: Create virtual environment
+  sudo: true
+  sudo_user: "{{ sentry_user }}"
+  command: virtualenv "{{ sentry_dir }}"
+           creates={{ sentry_dir }}/bin/activate
+
+- name: Copy virtual env wrapper script
+  sudo: true
+  sudo_user: "{{ sentry_user }}"
+  template: src=venv_exec.j2
+            dest={{ sentry_dir }}/exec
+            mode=755
+
+- name: Install sentry
+  sudo: true
+  sudo_user: "{{ sentry_user }}"
+  command: "{{ sentry_dir }}/exec easy_install -UZ sentry[mysql]
+           creates={{ sentry_dir }}/bin/sentry"

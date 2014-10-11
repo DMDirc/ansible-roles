@@ -1,0 +1,23 @@
+---
+
+- name: Install vim
+  apt: name=vim state=present
+  tags: [packages,vim,common]
+
+- name: Install mosh
+  apt: name=mosh state=present
+  tags: [packages,mosh,common]
+
+- name: Set timezone
+  copy: content='{{ timezone }}\n'
+        dest=/etc/timezone
+        owner=root
+        group=root
+        mode=0644
+  notify: [update timezone]
+  tags: [time,common]
+
+- name: Create locales
+  locale_gen: name={{ item }} state=present
+  with_items: locales
+  tags: [locale,common]

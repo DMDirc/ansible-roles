@@ -1,0 +1,30 @@
+---
+
+- name: Install debconf-utils
+  apt: pkg=debconf-utils
+  tags: [packages,java-license,java]
+
+- name: Check for Oracle license agreement
+  shell: '/usr/bin/debconf-get-selections | grep oracle-java8-installer'
+  register: selections
+  ignore_errors: yes
+  changed_when: False
+  tags: [packages,java-license,java]
+
+- name: Accept Oracle license agreeement
+  shell: 'echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections'
+  when: selections|failed
+  tags: [packages,java-license,java]
+
+- include: ../../shared/install-from-ppa.yml
+  vars:
+    ppa: 'ppa:webupd8team/java'
+    package: 'oracle-java8-installer'
+  tags: [packages,java]
+
+- include: ../../shared/install-from-ppa.yml
+  vars:
+    ppa: 'ppa:webupd8team/java'
+    package: 'oracle-java8-set-default'
+  tags: [packages,java-default,java]
+

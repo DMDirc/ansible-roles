@@ -1,0 +1,11 @@
+---
+
+- name: Execute nodesource script
+  script: setup.sh
+          creates=/etc/apt/sources.list.d/nodesource.list
+  tags: [packages,nodesource-repo,nodejs]
+
+- name: Install nodejs
+  apt: pkg=nodejs
+  tags: [packages,nodejs]
+

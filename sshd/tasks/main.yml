@@ -1,0 +1,25 @@
+---
+
+- name: Copy sshd_config
+  template: src=sshd_config.j2
+            dest=/etc/ssh/sshd_config
+            owner=root
+            group=root
+            mode=0644
+  notify: [test sshd and restart]
+  tags: [sshd]
+
+- name: add authorized keys
+  authorized_key: user=root
+                  key="{{ lookup('file', item) }}"
+  with_fileglob:
+    - "{{ ssh_root_key_glob }}"
+  tags: [sshd,sshd-keys]
+
+- name: revoke old authorized keys
+  authorized_key: user=root
+                  key="{{ lookup('file', item) }}"
+                  state=absent
+  with_fileglob:
+    - "{{ ssh_revoked_root_key_glob }}"
+  tags: [sshd, sshd-keys]
