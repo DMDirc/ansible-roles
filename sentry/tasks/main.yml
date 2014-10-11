@@ -2,12 +2,14 @@
 
 - name: Create sentry user
   user: name={{ sentry_user }}
+  tags: [sentry]
 
 - name: Create virtual environment
   sudo: true
   sudo_user: "{{ sentry_user }}"
   command: virtualenv "{{ sentry_dir }}"
            creates={{ sentry_dir }}/bin/activate
+  tags: [sentry,sentry-virtualenv]
 
 - name: Copy virtual env wrapper script
   sudo: true
@@ -15,6 +17,7 @@
   template: src=venv_exec.j2
             dest={{ sentry_dir }}/exec
             mode=755
+  tags: [sentry,sentry-virtualenv]
 
 - name: Install sentry
   sudo: true
@@ -22,12 +25,14 @@
   command: "{{ sentry_dir }}/exec easy_install -UZ sentry[mysql]
             creates={{ sentry_dir }}/bin/sentry"
   register: sentry_install
+  tags: [sentry]
 
 - name: Create sentry configuration dir
   sudo: true
   sudo_user: "{{ sentry_user }}"
   file: path={{ sentry_dir }}/etc
         state=directory
+  tags: [sentry,sentry-conf]
 
 - name: Copy sentry configuration
   sudo: true
@@ -35,19 +40,23 @@
   template: src=sentry.conf.j2
             dest={{ sentry_dir }}/etc/sentry.conf
   register: sentry_config
+  tags: [sentry,sentry-conf]
 
 - name: Create MySQL database
   mysql_db: name={{ sentry_db_name }}
   register: sentry_db_create
+  tags: [sentry,sentry-mysql]
 
 - include: ../../shared/generate-password.yml
   when: sentry_db_create.changed
+  tags: [sentry,sentry-mysql]
 
 - name: Create MySQL user
   mysql_user: name={{ sentry_db_user }}
               password={{ random_password.stdout }}
               priv=*.*:USAGE/{{ sentry_db_name }}.*:ALL
   when: sentry_db_create.changed
+  tags: [sentry,sentry-mysql]
 
 - name: Store MySQL user password
   copy: dest={{ sentry_dir }}/etc/mysql.pass
@@ -55,9 +64,11 @@
         owner={{ sentry_user }}
         mode=600
   when: sentry_db_create.changed
+  tags: [sentry,sentry-mysql]
 
 - include: ../../shared/generate-password.yml
   when: sentry_config.changed
+  tags: [sentry,sentry-conf]
 
 - name: Write random session ID
   copy: dest={{ sentry_dir }}/etc/secret.key
@@ -65,7 +76,9 @@
         owner={{ sentry_user }}
         mode=600
   when: sentry_config.changed
+  tags: [sentry,sentry-conf]
 
 - name: Upgrade/create sentry database schema
   command: "{{ sentry_dir }}/exec sentry --config={{ sentry_dir }}/etc/sentry.conf upgrade"
   when: sentry_db_create.changed or sentry_config.changed or sentry_install.changed
+  tags: [sentry]
