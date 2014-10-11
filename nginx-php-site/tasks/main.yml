@@ -6,7 +6,7 @@
 - name: Create {{ nginx_php_site_user }}" user
   user:
     name: "{{ nginx_php_site_user }}"
-    comment: "Feedback site user"
+    comment: "{{ nginx_php_site_user }} user"
     group: "{{ nginx_php_site_user }}"
     home: "{{ nginx_php_site_root }}"
   tags: [sites,nginx-php-site]
@@ -28,7 +28,7 @@
     dest: "{{ nginx_sites_available }}/{{ nginx_php_site_user }}"
   notify: restart nginx
   tags: [sites,nginx-php-site]
-- name: Create feedback symlink
+- name: Create {{ nginx_php_site_user }} symlink
   file:
     src: "{{ nginx_sites_available }}/{{ nginx_php_site_user }}"
     dest: "{{ nginx_sites_enabled }}/{{ nginx_php_site_user }}"
