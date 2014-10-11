@@ -5,14 +5,14 @@
   tags: [packages,nginx]
 
 - name: Configure nginx
-  template:
+  copy:
     src: nginx.conf.j2
     dest: /etc/nginx/nginx.conf
   notify: reload nginx
   tags: [packages,nginx]
 
 - name: Add mime types
-  template:
+  copy:
     src: mime.types.j2
     dest: /etc/nginx/mime.types
   notify: reload nginx
