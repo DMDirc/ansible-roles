@@ -1,0 +1,7 @@
+---
+
+user_comment: "{{ user_name }}"
+user_groups: ""
+user_shell: /bin/bash
+user_password: ""
+user_keys: []
