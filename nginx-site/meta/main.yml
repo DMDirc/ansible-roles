@@ -1,0 +1,5 @@
+---
+dependencies:
+  - role: php5-fpm-nginx
+    php5_fpm_nginx_pool_name: "{{ nginx_site_user }}"
+    php5_fpm_nginx_config_dir: "{{ nginx_site_root}}/conf"

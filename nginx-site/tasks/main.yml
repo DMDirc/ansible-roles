@@ -1,0 +1,49 @@
+---
+- name: Create {{ nginx_site__user }}" group
+  group:
+    name: "{{ nginx_site__user }}"
+  tags: [sites,nginx-upstream-site]
+- name: Create {{ nginx_site__user }}" user
+  user:
+    name: "{{ nginx_site__user }}"
+    comment: "{{ nginx_site__user }} user"
+    group: "{{ nginx_site__user }}"
+    home: "{{ nginx_site__root }}"
+  tags: [sites,nginx-upstream-site]
+- name: Create {{ nginx_site__user }}" site doc root
+  file:
+    path: "{{ nginx_site__root }}/www"
+    state: directory
+    group: "{{ nginx_site__user }}"
+    owner: "{{ nginx_site__user }}"
+  tags: [sites,nginx-upstream-site]
+- name: Create {{ nginx_site__user }}" site ssl
+  file:
+    path: "{{ nginx_site__root }}/ssl"
+    state: directory 
+  tags: [sites,nginx-upstream-site]
+- name: Create {{ nginx_site__user }}" site
+  template:
+    src: site.conf
+    dest: "{{ nginx_sites_available }}/{{ nginx_site__user }}"
+  notify: restart nginx
+  tags: [sites,nginx-upstream-site]
+- name: Create {{ nginx_site__user }} symlink
+  file:
+    src: "{{ nginx_sites_available }}/{{ nginx_site__user }}"
+    dest: "{{ nginx_sites_enabled }}/{{ nginx_site__user }}"
+    state: link
+  notify: restart nginx
+  tags: [sites,nginx-upstream-site]
+- name: create self-signed SSL cert
+  command: openssl req -new -nodes -x509 -subj "{{ nginx_site__ssldn }}" -days 3650 -keyout {{ nginx_site__root}}/ssl/ssl.key -out {{ nginx_site__root}}/ssl/ssl.pem -extensions v3_ca creates={{ nginx_site__root}}/ssl/ssl.pem
+  notify: restart nginx
+  tags: [sites,nginx-upstream-site]
+- name: Create log directory
+  file:
+    path: "{{ nginx_site__root }}/logs"
+    state: directory
+    group: "{{ nginx_site__user }}"
+    owner: "{{ nginx_site__user }}"
+  notify: restart nginx
+  tags: [sites,nginx-upstream-site]
