@@ -23,4 +23,5 @@
   tags: [locale,common]
 
 - name: Set hostname
-  hostname: "name={{ inventory_hostname }}"
+  hostname: name={{ inventory_hostname }}
+  when: inventory_hostname != "localhost" and inventory_hostname != "127.0.0.1"
