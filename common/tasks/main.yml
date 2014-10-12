@@ -21,3 +21,6 @@
   locale_gen: name={{ item }} state=present
   with_items: locales
   tags: [locale,common]
+
+- name: Set hostname
+  hostname: "name={{ inventory_hostname }}"
