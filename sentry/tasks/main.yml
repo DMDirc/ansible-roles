@@ -25,6 +25,7 @@
   command: "{{ sentry_dir }}/exec easy_install -UZ sentry[mysql]
             creates={{ sentry_dir }}/bin/sentry"
   register: sentry_install
+  notify: [reload supervisor]
   tags: [sentry]
 
 - name: Copy sentry configuration
@@ -33,6 +34,7 @@
   template: src=sentry.conf.j2
             dest={{ sentry_dir }}/config.py
   register: sentry_config
+  notify: [reload supervisor]
   tags: [sentry,sentry-conf]
 
 - name: Create MySQL database
