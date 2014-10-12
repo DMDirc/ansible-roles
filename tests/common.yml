@@ -3,9 +3,12 @@
   remote_user: root
   roles:
     - common
-    - nginx
-    - php5-fpm-nginx
     - sshd
     - sudoers
     - {role: user, user_name: test123}
     - {role: sudo-user, sudoer_user: test123}
+    - nginx
+    - php5-fpm-nginx
+    - role: nginx-php-site
+      nginx_php_site_hostname: mysite.example.com
+      nginx_php_site_user: mysite
