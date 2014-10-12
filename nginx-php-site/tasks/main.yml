@@ -39,7 +39,7 @@
   template:
     src: php.conf
     dest: "{{ php5_fpm_pool_path }}/{{ nginx_php_site_user }}.conf"
-  notify: restart-php
+  notify: restart php
   tags: [sites,nginx-php-site]
 - name: create self-signed SSL cert
   command: openssl req -new -nodes -x509 -subj "{{ nginx_php_site_ssldn }}" -days 3650 -keyout {{ nginx_php_site_root}}/ssl/ssl.key -out {{ nginx_php_site_root}}/ssl/ssl.pem -extensions v3_ca creates={{ nginx_php_site_root}}/ssl/ssl.pem
