@@ -1,0 +1,4 @@
+---
+
+- name: restart sentry
+  command: supervisorctl restart sentry-web
