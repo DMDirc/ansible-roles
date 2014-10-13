@@ -5,3 +5,7 @@ dependencies:
   - postfix
   - python-dev
   - supervisor
+  - role: user
+    user_name: "sentry"
+    user_home: "{{ sentry_user_dir }}"
+    user_comment: "Sentry error collator"

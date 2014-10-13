@@ -1,9 +1,5 @@
 ---
 
-- name: Create sentry user
-  user: name={{ sentry_user }}
-  tags: [sentry]
-
 - name: Create virtual environment
   sudo: true
   sudo_user: "{{ sentry_user }}"

@@ -2,7 +2,8 @@
 
 # User account and directory to use
 sentry_user: sentry
-sentry_dir: /home/sentry/sentry
+sentry_user_dir: /home/sentry
+sentry_dir: "{{ sentry_user_dir }}/sentry"
 
 # MySQL database details
 sentry_db_name: sentry

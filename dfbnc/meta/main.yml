@@ -2,3 +2,5 @@
 
 dependencies:
   - java8
+  - role: user
+    user_name: "{{ dfbnc_user }}"

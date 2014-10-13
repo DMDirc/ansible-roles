@@ -1,0 +1,7 @@
+---
+
+dependencies:
+  - role: user
+    user_name: "{{ teamcity_agent_user }}"
+    user_comment: "TeamCity user"
+    user_generate_ssh_keys: yes
