@@ -2,6 +2,8 @@
 
 user_comment: "{{ user_name }}"
 user_groups: ""
-user_shell: /bin/bash
+user_shell: "/bin/bash"
 user_password: ""
 user_keys: []
+user_home: "/home/{{ user_name }}"
+user_generate_ssh_key: no

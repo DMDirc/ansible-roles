@@ -1,9 +1,5 @@
 ---
 
-- name: create dfbnc user
-  user: name={{ dfbnc_user }}
-  tags: [dfbnc-user,dfbnc]
-
 - name: install ant
   apt: pkg=ant
   tags: [packages,dfbnc-dependencies,dfbnc]

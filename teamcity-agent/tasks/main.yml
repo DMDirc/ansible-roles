@@ -1,10 +1,5 @@
 ---
 
-- name: create teamcity user
-  user: name={{ teamcity_agent_user }}
-        generate_ssh_key=yes
-  tags: [teamcity-agent,teamcity-agent-user]
-
 - name: install unzip from apt
   apt: package=unzip
   tags: [teamcity-agent,teamcity-agent-prereqs]

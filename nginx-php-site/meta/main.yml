@@ -1,5 +1,9 @@
 ---
 dependencies:
+  - role: user
+    user_name: "{{ nginx_php_site_user }}"
+    user_comment: "{{ nginx_php_site_user }} user"
+    user_home: "{{ nginx_php_site_root }}"
   - role: php5-fpm-nginx
     php5_fpm_nginx_pool_name: "{{ nginx_php_site_user }}"
     php5_fpm_nginx_config_dir: "{{ nginx_php_site_root}}/conf"

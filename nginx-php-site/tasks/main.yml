@@ -1,15 +1,4 @@
 ---
-- name: Create {{ nginx_php_site_user }}" group
-  group:
-    name: "{{ nginx_php_site_user }}"
-  tags: [sites,nginx-php-site]
-- name: Create {{ nginx_php_site_user }}" user
-  user:
-    name: "{{ nginx_php_site_user }}"
-    comment: "{{ nginx_php_site_user }} user"
-    group: "{{ nginx_php_site_user }}"
-    home: "{{ nginx_php_site_root }}"
-  tags: [sites,nginx-php-site]
 - name: Create {{ nginx_php_site_user }}" site doc root
   file:
     path: "{{ nginx_php_site_root }}/www"
