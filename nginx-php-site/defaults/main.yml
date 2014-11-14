@@ -1,3 +1,4 @@
 ---
 nginx_php_site_root: "/home/{{ nginx_php_site_user }}"
+nginx_php_site_root_www: "{{ nginx_php_site_root }}/www"
 nginx_php_site_ssldn: "/C=GB/ST=London/L=London/O={{ nginx_php_site_user }}/CN={{ nginx_php_site_hostname }}"
