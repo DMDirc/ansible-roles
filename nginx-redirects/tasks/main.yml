@@ -1,28 +1,28 @@
 ---
-- name: Create {{ redirects_user }}" group
+- name: Create {{ redirects_user }} group
   group:
     name: "{{ redirects_user }}"
   tags: [sites,redirects]
-- name: Create {{ redirects_user }}" user
+- name: Create {{ redirects_user }} user
   user:
     name: "{{ redirects_user }}"
     comment: "{{ redirects_user }} user"
     group: "{{ redirects_user }}"
     home: "{{ redirects_root }}"
   tags: [sites,redirects]
-- name: Create {{ redirects_user }}" site doc root
+- name: Create {{ redirects_user }} site doc root
   file:
     path: "{{ redirects_root }}/www"
     state: directory
     group: "{{ redirects_user }}"
     owner: "{{ redirects_user }}"
   tags: [sites,redirects]
-- name: Create {{ redirects_user }}" site ssl
+- name: Create {{ redirects_user }} site ssl
   file:
     path: "{{ redirects_root }}/ssl"
     state: directory
   tags: [sites,redirects]
-- name: Create {{ redirects_user }}" site
+- name: Create {{ redirects_user }} site
   template:
     src: site.conf
     dest: "{{ nginx_sites_available }}/{{ redirects_user }}"
