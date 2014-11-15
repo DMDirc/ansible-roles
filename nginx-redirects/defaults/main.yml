@@ -1,4 +1,3 @@
 ---
 redirects_user: sites-redirects
 redirects_root: "/home/{{redirects_user}}"
-redirects_fallback: https://www.google.com
