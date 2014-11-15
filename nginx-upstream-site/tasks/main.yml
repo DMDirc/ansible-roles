@@ -1,28 +1,28 @@
 ---
-- name: Create {{ nginx_upstream_site_user }}" group
+- name: Create {{ nginx_upstream_site_user }} group
   group:
     name: "{{ nginx_upstream_site_user }}"
   tags: [sites,nginx-upstream-site]
-- name: Create {{ nginx_upstream_site_user }}" user
+- name: Create {{ nginx_upstream_site_user }} user
   user:
     name: "{{ nginx_upstream_site_user }}"
     comment: "{{ nginx_upstream_site_user }} user"
     group: "{{ nginx_upstream_site_user }}"
     home: "{{ nginx_upstream_site_root }}"
   tags: [sites,nginx-upstream-site]
-- name: Create {{ nginx_upstream_site_user }}" site doc root
+- name: Create {{ nginx_upstream_site_user }} site doc root
   file:
     path: "{{ nginx_upstream_site_root }}/www"
     state: directory
     group: "{{ nginx_upstream_site_user }}"
     owner: "{{ nginx_upstream_site_user }}"
   tags: [sites,nginx-upstream-site]
-- name: Create {{ nginx_upstream_site_user }}" site ssl
+- name: Create {{ nginx_upstream_site_user }} site ssl
   file:
     path: "{{ nginx_upstream_site_root }}/ssl"
     state: directory 
   tags: [sites,nginx-upstream-site]
-- name: Create {{ nginx_upstream_site_user }}" site
+- name: Create {{ nginx_upstream_site_user }} site
   template:
     src: site.conf
     dest: "{{ nginx_sites_available }}/{{ nginx_upstream_site_user }}"
