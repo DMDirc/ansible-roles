@@ -1,17 +1,17 @@
 ---
-- name: Create {{ nginx_php_site_user }}" site doc root
+- name: Create {{ nginx_php_site_user }} site doc root
   file:
     path: "{{ nginx_php_site_root }}/www"
     state: directory
     group: "{{ nginx_php_site_user }}"
     owner: "{{ nginx_php_site_user }}"
   tags: [sites,nginx-php-site]
-- name: Create {{ nginx_php_site_user }}" site ssl
+- name: Create {{ nginx_php_site_user }} site ssl
   file:
     path: "{{ nginx_php_site_root }}/ssl"
     state: directory 
   tags: [sites,nginx-php-site]
-- name: Create {{ nginx_php_site_user }}" site
+- name: Create {{ nginx_php_site_user }} site
   template:
     src: site.conf
     dest: "{{ nginx_sites_available }}/{{ nginx_php_site_user }}"
