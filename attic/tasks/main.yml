@@ -1,0 +1,6 @@
+---
+
+- name: Install attic
+  apt: name=attic
+  tags: [packages,attic]
+
