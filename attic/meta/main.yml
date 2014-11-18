@@ -1,0 +1,8 @@
+---
+
+dependencies:
+  - role: user
+    user_name: "{{ attic_user }}"
+    user_keys: "{{ attic_ssh_keys }}"
+    user_comment: "Attic backup user"
+
