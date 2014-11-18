@@ -2,6 +2,7 @@
 
 - name: Install debconf-utils
   apt: pkg=debconf-utils
+  when: ansible_distribution_release != 'utopic'
   tags: [packages,java-license,java]
 
 - name: Check for Oracle license agreement
@@ -9,22 +10,30 @@
   register: selections
   ignore_errors: yes
   changed_when: False
+  when: ansible_distribution_release != 'utopic'
   tags: [packages,java-license,java]
 
 - name: Accept Oracle license agreeement
   shell: 'echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections'
-  when: selections|failed
+  when: ansible_distribution_release != 'utopic' and selections|failed
   tags: [packages,java-license,java]
 
 - include: ../../shared/install-from-ppa.yml
   vars:
     ppa: 'ppa:webupd8team/java'
     package: 'oracle-java8-installer'
+  when: ansible_distribution_release != 'utopic'
   tags: [packages,java]
 
 - include: ../../shared/install-from-ppa.yml
   vars:
     ppa: 'ppa:webupd8team/java'
     package: 'oracle-java8-set-default'
+  when: ansible_distribution_release != 'utopic'
   tags: [packages,java-default,java]
+
+- name: Install OpenJDK 8
+  apt: pkg=openjdk-8-jdk
+  when: ansible_distribution_release == 'utopic'
+  tags: [packages,java]
 
