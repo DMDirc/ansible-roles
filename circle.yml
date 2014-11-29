@@ -6,10 +6,11 @@ machine:
   python:
     version: 2.7.8
 
+checkout:
+  post:
+    - git submodule update --init --remote
+
 dependencies:
-  pre:
-    - pip install ansible
-    - cp tests/ansible.cfg .
   cache_directories:
     - ~/docker
   override:
