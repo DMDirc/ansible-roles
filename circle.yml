@@ -1,6 +1,8 @@
 ---
 
 machine:
+  services:
+    - docker
   python:
     version: 2.7.8
 
@@ -8,6 +10,17 @@ dependencies:
   pre:
     - pip install ansible
     - cp tests/ansible.cfg .
+  cache_directories:
+    - ~/docker
+  override:
+    - docker info
+    - if [[ -e ~/docker/image.tar ]]; then docker load -i ~/docker/image.tar; fi
+    - docker build -t dmdirc/ansibletest tests/docker
+    - mkdir -p ~/docker; docker save dmdirc/ansibletest > ~/docker/image.tar
+
+test:
+  override:
+    - docker run -v $PWD:/opt/ansible -t dmdirc/ansibletest /opt/ansible/tests/runtests
 
 test:
   override:
