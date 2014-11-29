@@ -3,8 +3,6 @@
 machine:
   services:
     - docker
-  python:
-    version: 2.7.8
 
 checkout:
   post:
@@ -21,5 +19,5 @@ dependencies:
 
 test:
   override:
-    - docker run -v $PWD:/opt/ansible -t dmdirc/ansibletest /opt/ansible/tests/runtests $CIRCLE_NODE_INDEX:
+    - docker run -v $PWD:/opt/ansible -t dmdirc/ansibletest /opt/ansible/tests/runtests.sh $CIRCLE_NODE_INDEX:
         parallel: true
