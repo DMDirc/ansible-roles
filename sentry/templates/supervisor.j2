@@ -5,3 +5,12 @@ autostart=true
 autorestart=true
 redirect_stderr=true
 user={{ sentry_user }}
+
+[program:sentry-worker]
+directory={{ sentry_dir }}
+command={{ sentry_dir }}/bin/sentry --config={{ sentry_dir }}/config.py celery worker -B -l WARNING
+autostart=true
+autorestart=true
+redirect_stderr=true
+killasgroup=true
+user={{ sentry_user }}
