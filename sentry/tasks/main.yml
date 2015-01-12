@@ -104,6 +104,14 @@
   when: sentry_setup.changed
   tags: [sentry,sentry-setup]
 
+- name: Install webhooks plugin
+  sudo: true
+  sudo_user: "{{ sentry_user }}"
+  pip: name=sentry-webhooks
+       virtualenv={{ sentry_dir }}
+  notify: restart sentry
+  tags: [sentry,sentry-webhooks]
+
 - name: Install Supervisor configuration
   template: src=supervisor.j2
             dest=/etc/supervisor/conf.d/sentry.conf
