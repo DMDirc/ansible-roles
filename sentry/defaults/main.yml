@@ -3,7 +3,8 @@
 # User account and directory to use
 sentry_user: sentry
 sentry_user_dir: /home/sentry
-sentry_dir: "{{ sentry_user_dir }}/sentry"
+sentry_version: 7.0.2
+sentry_dir: "{{ sentry_user_dir }}/sentry-{{ sentry_version }}"
 
 # MySQL database details
 sentry_db_name: sentry
