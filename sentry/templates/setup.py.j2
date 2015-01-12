@@ -6,7 +6,7 @@ import os
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config')
 
-from sentry.models import User, Team, Project
+from sentry.models import User, Team, Organization, Project
 
 admin, created = User.objects.get_or_create(
     username="{{ sentry_superuser_name }}",
@@ -20,14 +20,21 @@ if created:
     admin.set_password("{{ sentry_superuser_password }}")
     admin.save()
 
-team, created = Team.objects.get_or_create(
+organization, created = Organization.objects.get_or_create(
     name="{{ sentry_team_name }}",
     defaults={"owner": admin})
+
+team, created = Team.objects.get_or_create(
+    name="{{ sentry_team_name }}",
+    defaults={
+        "owner": admin,
+        "organization": organization
+    })
 
 Project.objects.get_or_create(
     name="{{ sentry_project_name }}",
     defaults={
         "team": team,
-        "owner": admin,
+        "organization": organization,
         "platform": "{{ sentry_project_platform }}"
     })

@@ -1,6 +1,7 @@
 ---
 
 dependencies:
+  - redis
   - mysql
   - postfix
   - python-dev

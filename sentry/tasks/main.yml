@@ -1,5 +1,13 @@
 ---
 
+- name: Install libxml2-dev
+  apt: name=libxml2-dev
+  tags: [sentry,sentry-prereqs]
+
+- name: Install libxslt-dev
+  apt: name=libxslt1-dev
+  tags: [sentry,sentry-prereqs]
+
 - name: Create virtual environment
   sudo: true
   sudo_user: "{{ sentry_user }}"
@@ -18,7 +26,7 @@
 - name: Install sentry
   sudo: true
   sudo_user: "{{ sentry_user }}"
-  command: "{{ sentry_dir }}/exec easy_install -UZ sentry[mysql]
+  command: "{{ sentry_dir }}/exec easy_install -UZ sentry[mysql]=={{ sentry_version }}
             creates={{ sentry_dir }}/bin/sentry"
   register: sentry_install
   notify: restart sentry
@@ -50,12 +58,19 @@
   tags: [sentry,sentry-mysql]
 
 - name: Store MySQL user password
-  copy: dest={{ sentry_dir }}/mysql.pass
+  copy: dest={{ sentry_user_dir }}/mysql.pass
         content="{{ random_password.stdout }}"
         owner={{ sentry_user }}
         mode=600
   when: sentry_db_create.changed
   tags: [sentry,sentry-mysql]
+
+- name: Copy MySQL user password
+  sudo: true
+  sudo_user: "{{ sentry_user }}"
+  command: cp {{ sentry_user_dir }}/mysql.pass {{ sentry_dir }}/mysql.pass
+           creates={{ sentry_dir }}/mysql.pass
+  tags: [sentry, sentry-mysql]
 
 - include: ../../shared/generate-password.yml
   when: sentry_config.changed
