@@ -112,6 +112,14 @@
   notify: restart sentry
   tags: [sentry,sentry-webhooks]
 
+- name: Install github plugin
+  sudo: true
+  sudo_user: "{{ sentry_user }}"
+  pip: name=sentry-github
+       virtualenv={{ sentry_dir }}
+  notify: restart sentry
+  tags: [sentry,sentry-github]
+
 - name: Install Supervisor configuration
   template: src=supervisor.j2
             dest=/etc/supervisor/conf.d/sentry.conf
