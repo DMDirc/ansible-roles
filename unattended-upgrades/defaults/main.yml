@@ -1,0 +1,8 @@
+---
+
+unattended_email: root
+
+unattended_updates_security: true
+unattended_updates_normal: false
+unattended_updates_proposed: false
+unattended_updates_backports: false

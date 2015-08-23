@@ -1,0 +1,20 @@
+---
+- name: Install unattended-upgrades
+  apt: name=unattended-upgrades state=present
+  tags: [unattended-upgrades]
+
+- name: Configure unattended upgrades
+  template: src=50unattended-upgrades.j2 dest=/etc/apt/apt.conf.d/50unattended-upgrades owner=root group=root mode=0644
+  tags: [unattended-upgrades]
+
+- name: Enable auto upgrades
+  template: src=20auto-upgrades.j2 dest=/etc/apt/apt.conf.d/20auto-upgrades owner=root group=root mode=0644
+  tags: [unattended-upgrades]
+
+- name: Install apticron
+  apt: name=apticron state=present
+  tags: [unattended-upgrades,apticron]
+
+- name: Configure apticron
+  template: src=apticron.conf.j2 dest=/etc/apticron/apticron.conf owner=root group=root mode=0644
+  tags: [unattended-upgrades,apticron]
