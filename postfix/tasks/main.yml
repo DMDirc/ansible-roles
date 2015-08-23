@@ -3,3 +3,7 @@
 - name: Install postfix
   apt: name=postfix state=present
   tags: [postfix]
+
+- name: Install mail utils
+  apt: name=mailutils state=present
+  tags: [postfix]
