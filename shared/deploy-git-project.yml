@@ -10,4 +10,5 @@
   git: accept_hostkey=yes
        dest={{ dest }}
        repo={{ repo }}
-
+       version={{ version | default(HEAD) }}
+  register: git_clone
