@@ -4,13 +4,12 @@
   apt: pkg=ant
   tags: [packages,dfbnc-dependencies,dfbnc]
 
-  # TODO: This always does a remote submodule update which
-  #       is wrong, and makes the step show as changed.
 - include: ../../shared/deploy-git-project.yml
   vars:
     repo: https://github.com/ShaneMcC/DFBnc.git
     user: "{{ dfbnc_user }}"
     dest: "{{ dfbnc_dir }}/src"
+    version: "{{ dfbnc_version }}"
   tags: [dfbnc]
 
 - name: build dfbnc
@@ -20,8 +19,8 @@
     LANG: en_US.UTF-8
     LC_CTYPE: en_US.UTF-8
   command: chdir={{ dfbnc_dir }}/src
-           creates={{ dfbnc_dir }}/src/dist/dfbnc.jar
            ant jar
+  when: git_clone.changed
   tags: [dfbnc-setup,dfbnc]
 
 - name: create config directory
@@ -62,4 +61,3 @@
             mode=0600
   when: dfbnc_keystore_create.changed
   tags: [dfbnc-setup,dfbnc-config,dfbnc]
-
